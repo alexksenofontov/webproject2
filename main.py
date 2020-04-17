@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, abort, request
+    from flask import Flask, render_template, redirect, abort, request
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from data.users import User
 from data.doctors import Doctor
@@ -220,7 +220,7 @@ def rec_delete(id):
 
 def main():
     db_session.global_init("db/almed.sqlite")
-    app.run()
+    app.run(port=8000, debug=True)
 
 
 if __name__ == '__main__':

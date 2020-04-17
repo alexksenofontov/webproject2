@@ -1,7 +1,8 @@
 flask
-flask_login
 flask_wtf
+wtforms
+flask_login
+requests
+flask_restful
 sqlalchemy
-werkzeug
-datetime
-
+sqlalchemy_serializer
