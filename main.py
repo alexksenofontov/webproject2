@@ -13,7 +13,7 @@ import datetime
 from data import db_session
 
 app = Flask(__name__)
-app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
+# app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
 app.config['SECRET_KEY'] = 'almed_secret_key'
 
 login_manager = LoginManager()
