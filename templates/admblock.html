@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" id="viewdoctors-tab" data-toggle="tab" href="#viewdoctors" role="tab" aria-controls="viewdoctors" aria-selected="true">Просмотр списка врачей</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="adddoctor-tab" data-toggle="tab" href="#adddoctor" role="tab" aria-controls="adddoctor" aria-selected="false">Добавление врача</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="addtime-tab" data-toggle="tab" href="#addtime" role="tab" aria-controls="addtime" aria-selected="false">Добавить время работы в расписание</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="viewrec-tab" data-toggle="tab" href="#viewrec" role="tab" aria-controls="viewrec" aria-selected="false">Просмотр всех записей</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="viewdoctors" role="tabpanel" aria-labelledby="viewdoctors-tab">
+      {% if not doctors %}
+        <h2> Отсутствуют записи </h2>
+      {% else %}
+        <table class="table table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Профили</th>
+                    <th>E-mail</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            {% for item in doctors%}
+                <tr>
+                    <td>{{ item.surname }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.fname }}</td>
+                    <td>{{ item.profile }}</td>
+                    <td>{{ item.email }}</td>
+                    <td><a href="/docs_delete/{{ item.id }}" class="btn btn-danger">Удалить</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+      {% endif %}
+  </div>
+  <div class="tab-pane fade" id="adddoctor" role="tabpanel" aria-labelledby="adddoctor-tab">
+      <form action="" method="post">
+          {{ form.hidden_tag() }}
+          {{ form.csrf_token }}
+          <p>
+              {{ form.email.label }} <br>
+              {{ form.email(class="form-control", type="email") }}<br>
+              {% for error in form.email.errors %}
+                  <p class="alert alert-danger" role="alert">
+                      {{ error }}
+                  </p>
+              {% endfor %}
+          </p>
+          <p>
+              {{ form.password.label }}<br>
+              {{ form.password(class="form-control", type="password") }}<br>
+              {% for error in form.password.errors %}
+                  <p class="alert alert-danger" role="alert">
+                      {{ error }}
+                  </p>
+              {% endfor %}
+          </p>
+          <p>
+              {{ form.password_again.label }}<br>
+              {{ form.password_again(class="form-control", type="password") }}<br>
+              {% for error in form.password_again.errors %}
+                  <p class="alert alert-danger" role="alert">
+                      {{ error }}
+                  </p>
+              {% endfor %}
+          </p>
+          <p>
+              {{ form.fam.label }}<br>
+              {{ form.fam(class="form-control") }}
+              {% for error in form.fam.errors %}
+                  <p class="alert alert-danger" role="alert">
+                      {{ error }}
+                  </p>
+              {% endfor %}
+          </p>
+          <p>
+              {{ form.name.label }}<br>
+              {{ form.name(class="form-control") }}
+              {% for error in form.name.errors %}
+                  <p class="alert alert-danger" role="alert">
+                      {{ error }}
+                  </p>
+              {% endfor %}
+          </p>
+          <p>
+              {{ form.fname.label }}<br>
+              {{ form.fname(class="form-control") }}
+              {% for error in form.fname.errors %}
+                  <p class="alert alert-danger" role="alert">
+                      {{ error }}
+                  </p>
+              {% endfor %}
+          </p>
+          <p>
+              {{ form.profile.label }}<br>
+              {{ form.profile(class="form-control") }}
+              {% for error in form.profile.errors %}
+                  <p class="alert alert-danger" role="alert">
+                      {{ error }}
+                  </p>
+              {% endfor %}
+          </p>
+          <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+          {{message}}
+      </form>
+  </div>
+  <div class="tab-pane fade" id="addtime" role="tabpanel" aria-labelledby="addtime-tab">
+      {% if not doctors %}
+        <h2> Отсутствуют врачи </h2>
+      {% else %}
+        <h2> Выбор рабочего времени врача</h2>
+        <form action="admblock2" method="post">
+          {{ form2.hidden_tag() }}
+          {{ form2.csrf_token }}
+          <p> Врач:
+              <select name="doctor">
+                  {% for item in doctors %}
+                    <option value="{{ item.id }}">{{ item.surname }} {{ item.name }} {{ item.fname }}</option>
+                  {% endfor %}
+              </select>
+          </p>
+          <p>
+              Дата: {{ form2.date(class="form-control", type="date") }}
+              {% for error in form2.date.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+              {% endfor %}
+          </p>
+          <p>
+            {{ form2.time1.label }}<br>
+            {{ form2.time1(class="form-control", type="time") }}
+            {% for error in form2.time1.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form2.time2.label }}<br>
+            {{ form2.time2(class="form-control", type="time") }}
+            {% for error in form2.time2.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+          </p>
+          <p>{{ form2.submit2(type="submit", class="btn btn-primary") }}</p>
+          {{message}}
+        </form>
+      {% endif %}
+  </div>
+  <div class="tab-pane fade" id="viewrec" role="tabpanel" aria-labelledby="viewrec-tab">
+      {% if not records %}
+        <h2> Отсутствуют записи </h2>
+      {% else %}
+        <table class="table table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Ф.И.О. доктора</th>
+                    <th>Ф.И.О. пациента</th>
+                    <th>Дата</th>
+                    <th>Время</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            {% for item in records%}
+                <tr>
+                    <td>{{ ' '.join(names[item.doc_id]) }}</td>
+                    <td> {{' '.join(names[item.people_id]) }}
+                    </td>
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.time }}</td>
+                    <td><a href="/recs_delete/{{ item.id }}" class="btn btn-danger">Удалить</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+      {% endif %}
+  </div>
+</div>
+{% endblock %}

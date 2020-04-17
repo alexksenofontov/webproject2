@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2> Запись на прием</h2>
+    <form action="" method="post">
+       {{ form.hidden_tag() }}
+       {{ form.csrf_token }}
+       <p> Выберите запись:
+         <select name="record">
+           {% for item in records %}
+            <option value="{{ item.id }}">{{' '.join(name[item.doc_id])}} - {{ item.date }} - {{ item.time }})</option>
+           {% endfor %}
+         </select>
+       </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    </form>
+
+{% endblock %}

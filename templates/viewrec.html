@@ -1,0 +1,27 @@
+{%extends "base.html" %}
+
+{%block content %}
+      {% if not views %}
+        <h2> Отсутствуют записи </h2>
+      {% else %}
+        <table class="table table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Фамилия, имя, отчество, профили</th>
+                    <th>Дата</th>
+                    <th>Время</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            {% for item in views%}
+                <tr>
+                    <td>{{ ' '.join(name[item.doc_id]) }}</td>
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.time }}</td>
+                    <td><a href="/rec_delete/{{ item.id }}" class="btn btn-danger">Удалить</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+      {% endif %}
+  </div>
+{% endblock %}
