@@ -13,6 +13,7 @@ import datetime
 from data import db_session
 
 app = Flask(__name__)
+db_session.global_init("db/almed.sqlite")
 # app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
 app.config['SECRET_KEY'] = 'almed_secret_key'
 
@@ -219,7 +220,6 @@ def rec_delete(id):
 
 
 def main():
-    db_session.global_init("db/almed.sqlite")
     app.run(port=8000, debug=True)
 
 
